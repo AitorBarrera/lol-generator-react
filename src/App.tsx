@@ -7,24 +7,30 @@ import { getJoke} from './assets/scripts'
 import { Joke } from './types/interfaces'
 
 const inicialJoke: Joke = {
-  id: 312312,
-  punchline: "Lodsa",
-  setup: "czxcxczx",
-  type: "va"
+  id: 1,
+  punchline: "",
+  setup: "",
+  type: ""
 }
 
 function App() {
   const [actualJoke, setJoke] = useState<Joke | undefined>(inicialJoke);
+  const [showJokeDisplay, setShowJokeDisplay] = useState<boolean>(false);
+  const [showPunchline, setShowPunchline] = useState<boolean>(false);
 
   function getNewJoke() {
-    getJoke().then((newJoke) => setJoke(newJoke));
+    getJoke().then((newJoke) => {
+      setJoke(newJoke)
+      setShowJokeDisplay(true);
+      setShowPunchline(false)
+    });
   }
 
   return (
     <>
       <Header/>
       <Button text={"Get joke"} onClickFunction={getNewJoke}/>
-      <JokeDisplay joke={actualJoke}/>
+      {showJokeDisplay && <JokeDisplay joke={actualJoke} showPunchline={showPunchline} setShowPunchline={setShowPunchline}/>}
     </>
   )
 }

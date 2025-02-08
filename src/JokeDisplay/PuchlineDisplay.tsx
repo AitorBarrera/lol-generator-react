@@ -2,13 +2,12 @@ import { getLolImage } from "../assets/scripts"
 import { Joke } from "../types/interfaces"
 
 interface PunchlineDisplayProps {
-    mode: "show" | "hidden",
     joke: Joke | undefined,
 }
 
-function PuchlineDisplay({mode, joke}: PunchlineDisplayProps) {
+function PuchlineDisplay({joke}: PunchlineDisplayProps) {
   return (
-    <div className={mode}>
+    <div>
         <p>{joke?.punchline}</p>
         {getLolImage()}
     </div>

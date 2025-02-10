@@ -1,7 +1,6 @@
 import Button from "../Button/Button"
 import { Joke } from "../types/interfaces"
-import PuchlineDisplay from "./PuchlineDisplay"
-import { getLolImage } from "../assets/scripts"
+import { getRandomNumberForImage } from "../assets/scripts"
 import { useState } from "react";
 
 interface jokeDisplayProps {
@@ -11,7 +10,11 @@ interface jokeDisplayProps {
 } 
 
 function JokeDisplay({joke, showPunchline, setShowPunchline}:jokeDisplayProps) {
-  const [ imgReaction, setImgReaction] = useState<JSX.Element | undefined>();
+  const [ randomNum, setRandomNum] = useState<number | undefined>();
+
+  function newRandomNum() {
+    setRandomNum(getRandomNumberForImage());
+  }
 
   return (
     <div id="result">
@@ -21,14 +24,16 @@ function JokeDisplay({joke, showPunchline, setShowPunchline}:jokeDisplayProps) {
           text="Reveal punchline"
           onClickFunction={() => {
             setShowPunchline(true)
-            setImgReaction(getLolImage());
+            newRandomNum()
           }}
         />
         
-        {showPunchline && <PuchlineDisplay
-          joke={joke}
-          img={imgReaction}
-        />}
+        {showPunchline && (
+          <>
+                <p>{joke?.punchline}</p>
+                <img src={`img/lol${randomNum}.gif`} alt="LOL GIF"/>
+          </>)
+        }
     </div>
   )
 }

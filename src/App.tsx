@@ -6,22 +6,13 @@ import JokeDisplay from './JokeDisplay/jokeDisplay'
 import { getJoke} from './assets/scripts'
 import { Joke } from './types/interfaces'
 
-const inicialJoke: Joke = {
-  id: 1,
-  punchline: "",
-  setup: "",
-  type: ""
-}
-
 function App() {
-  const [actualJoke, setJoke] = useState<Joke | undefined>(inicialJoke);
-  const [showJokeDisplay, setShowJokeDisplay] = useState<boolean>(false);
+  const [currentJoke, setCurrentJoke] = useState<Joke | undefined>(undefined);
   const [showPunchline, setShowPunchline] = useState<boolean>(false);
 
   function getNewJoke() {
     getJoke().then((newJoke) => {
-      setJoke(newJoke)
-      setShowJokeDisplay(true);
+      setCurrentJoke(newJoke)
       setShowPunchline(false)
     });
   }
@@ -29,8 +20,16 @@ function App() {
   return (
     <>
       <Header/>
+      
       <Button text={"Get joke"} onClickFunction={getNewJoke}/>
-      {showJokeDisplay && <JokeDisplay joke={actualJoke} showPunchline={showPunchline} setShowPunchline={setShowPunchline}/>}
+      
+      {currentJoke && 
+        <JokeDisplay 
+          joke={currentJoke} 
+          showPunchline={showPunchline} 
+          setShowPunchline={setShowPunchline}
+        />
+      }
     </>
   )
 }
